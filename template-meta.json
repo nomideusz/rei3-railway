@@ -4,5 +4,6 @@
   "description": "Low-code platform for business apps: CRM, tickets, time, assets. Postgres.",
   "category": "Other",
   "image": "https://raw.githubusercontent.com/nomideusz/rei3-railway/main/icon.png",
-  "id": "817aec97-715b-49df-966d-bc95ec5e5780"
+  "id": "817aec97-715b-49df-966d-bc95ec5e5780",
+  "published": true
 }
