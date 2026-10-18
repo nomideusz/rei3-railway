@@ -2,7 +2,7 @@
 # Writes REI3's config.json from Railway variables, then runs REI3 on plain HTTP behind Railway's TLS edge.
 set -e
 D=/opt/r3/data
-mkdir -p "$D/certificates" "$D/files" "$D/temp" "$D/transfer"
+mkdir -p "$D/certificates" "$D/files" "$D/temp" "$D/transfer" "$D/backups"
 [ -f "$D/config.json" ] || cp /opt/r3/config_template.json "$D/config.json"
 
 # DB + web settings are re-applied every boot; anything REI3 writes itself (cluster node ID) is kept
