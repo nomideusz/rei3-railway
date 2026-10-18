@@ -1,0 +1,26 @@
+#!/bin/sh
+# Writes REI3's config.json from Railway variables, then runs REI3 on plain HTTP behind Railway's TLS edge.
+set -e
+D=/opt/r3/data
+mkdir -p "$D/certificates" "$D/files" "$D/temp" "$D/transfer"
+[ -f "$D/config.json" ] || cp /opt/r3/config_template.json "$D/config.json"
+
+# DB + web settings are re-applied every boot; anything REI3 writes itself (cluster node ID) is kept
+jq --arg h "$PGHOST" --arg p "$PGPORT" --arg n "$PGDATABASE" --arg u "$PGUSER" --arg pw "$PGPASSWORD" --arg port "${PORT:-8080}" '
+  .db.embedded=false | .db.host=$h | .db.port=($p|tonumber) | .db.name=$n | .db.user=$u | .db.pass=$pw | .db.ssl=false
+  | .web.listen="" | .web.port=($port|tonumber)' "$D/config.json" > "$D/config.json.tmp"
+mv "$D/config.json.tmp" "$D/config.json"
+
+# REI3 creates admin/admin on first start. Swap in R3_ADMIN_PASSWORD (only while the default is still set),
+# and point publicHostName at the Railway domain (only while it is still 'localhost').
+(
+  i=0
+  while [ $i -lt 1200 ]; do
+    i=$((i+1)); sleep 0.5
+    r=$(psql -qtA -v pw="${R3_ADMIN_PASSWORD:-}" -v host="${R3_PUBLIC_HOST:-}" -f /opt/r3/first-boot.sql 2>/dev/null) || continue
+    [ "$r" = done ] && { echo "railway-start: admin password and public host name set"; exit 0; }
+  done
+  echo "railway-start: WARNING could not verify the admin password swap"
+) &
+
+exec /opt/r3/r3 -run -http -config "$D/config.json"

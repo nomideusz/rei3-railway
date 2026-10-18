@@ -1,0 +1,124 @@
+{
+ "buckets": {},
+ "services": {
+  "6928db39-c27d-4a01-8edf-e0d2217b7885": {
+   "icon": "https://raw.githubusercontent.com/nomideusz/rei3-railway/main/icon.png",
+   "name": "REI3",
+   "build": {
+    "dockerfilePath": "Dockerfile"
+   },
+   "deploy": {
+    "startCommand": null,
+    "healthcheckPath": "/status",
+    "healthcheckTimeout": 300,
+    "restartPolicyType": "ON_FAILURE",
+    "restartPolicyMaxRetries": 10
+   },
+   "source": {
+    "repo": "https://github.com/nomideusz/rei3-railway",
+    "rootDirectory": null
+   },
+   "networking": {
+    "serviceDomains": {
+     "<hasDomain>": {}
+    }
+   },
+   "volumeMounts": {
+    "20e50ac6-8ae1-4004-a0ce-1fca090f83a4": {
+     "mountPath": "/opt/r3/data"
+    }
+   },
+   "variables": {
+    "R3_ADMIN_PASSWORD": {
+     "defaultValue": "${{secret(24, \"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789\")}}",
+     "isOptional": false,
+     "description": "Password for the 'admin' account, set on first boot in place of REI3's default admin/admin. Change it in REI3 afterwards; this variable is not used again."
+    },
+    "R3_PUBLIC_HOST": {
+     "defaultValue": "${{RAILWAY_PUBLIC_DOMAIN}}",
+     "isOptional": true,
+     "description": "Public host name REI3 uses in links (mails, calendars, client config). Applied once on first boot; change it later in Admin -> System."
+    },
+    "PGHOST": {
+     "defaultValue": "${{Postgres.RAILWAY_PRIVATE_DOMAIN}}",
+     "isOptional": false,
+     "description": "Postgres host (private network)"
+    },
+    "PGPORT": {
+     "defaultValue": "5432",
+     "isOptional": false,
+     "description": "Postgres port"
+    },
+    "PGDATABASE": {
+     "defaultValue": "${{Postgres.POSTGRES_DB}}",
+     "isOptional": false,
+     "description": "Postgres database"
+    },
+    "PGUSER": {
+     "defaultValue": "${{Postgres.POSTGRES_USER}}",
+     "isOptional": false,
+     "description": "Postgres user"
+    },
+    "PGPASSWORD": {
+     "defaultValue": "${{Postgres.POSTGRES_PASSWORD}}",
+     "isOptional": false,
+     "description": "Postgres password"
+    },
+    "PORT": {
+     "defaultValue": "8080",
+     "isOptional": false,
+     "description": "HTTP port REI3 listens on behind Railway's HTTPS - leave as is."
+    }
+   }
+  },
+  "91c73b0b-fc22-41ad-9fee-871c9e97b839": {
+   "icon": "https://devicons.railway.app/i/postgresql.svg",
+   "name": "Postgres",
+   "build": {},
+   "deploy": {
+    "startCommand": null,
+    "healthcheckPath": null,
+    "restartPolicyType": "ON_FAILURE",
+    "restartPolicyMaxRetries": 10
+   },
+   "source": {
+    "image": "ghcr.io/railwayapp-templates/postgres-ssl:17"
+   },
+   "networking": {
+    "serviceDomains": {}
+   },
+   "volumeMounts": {
+    "3e71d1a0-1e97-4f1a-bfb3-872dd72395b5": {
+     "mountPath": "/var/lib/postgresql/data"
+    }
+   },
+   "variables": {
+    "POSTGRES_DB": {
+     "defaultValue": "rei3",
+     "description": "Database name",
+     "isOptional": false
+    },
+    "POSTGRES_USER": {
+     "defaultValue": "rei3",
+     "description": "Database user",
+     "isOptional": false
+    },
+    "POSTGRES_PASSWORD": {
+     "defaultValue": "${{secret(32, \"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789\")}}",
+     "description": "Auto-generated database password",
+     "isOptional": false
+    },
+    "PGDATA": {
+     "defaultValue": "/var/lib/postgresql/data/pgdata",
+     "description": "Data subdirectory - keeps Postgres happy on Railway volumes",
+     "isOptional": false
+    },
+    "RAILWAY_DEPLOYMENT_DRAINING_SECONDS": {
+     "defaultValue": "60",
+     "description": "Time for Postgres to shut down cleanly on redeploy",
+     "isOptional": false
+    }
+   }
+  }
+ }
+}

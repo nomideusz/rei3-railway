@@ -1,0 +1,7 @@
+{
+  "name": "REI3 | Open-Source Low-Code Business App Platform",
+  "short_name": "REI3",
+  "description": "Low-code platform for business apps: CRM, tickets, time, assets. Postgres.",
+  "category": "Other",
+  "image": "https://raw.githubusercontent.com/nomideusz/rei3-railway/main/icon.png"
+}
