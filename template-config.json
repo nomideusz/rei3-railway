@@ -68,6 +68,11 @@
      "defaultValue": "8080",
      "isOptional": false,
      "description": "HTTP port REI3 listens on behind Railway's HTTPS - leave as is."
+    },
+    "R3_VERSION": {
+     "defaultValue": "3.13",
+     "isOptional": false,
+     "description": "REI3 release to build (see github.com/r3-team/r3/releases). Raise it and redeploy to upgrade; the database is migrated on start and cannot be downgraded."
     }
    }
   },
