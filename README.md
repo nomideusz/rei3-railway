@@ -36,7 +36,7 @@ REI3 has no official container image, and its example Docker setup is marked "de
 
 - [REI3 admin documentation](https://rei3.de/en/docs/admin)
 - [REI3 on GitHub](https://github.com/r3-team/r3)
-- [Template source on GitHub](https://github.com/nomideusz/rei3-railway)
+- [Template source on GitHub](https://github.com/two-workspaces/rei3)
 
 ### Implementation Details
 

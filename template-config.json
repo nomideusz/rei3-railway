@@ -2,7 +2,7 @@
  "buckets": {},
  "services": {
   "6928db39-c27d-4a01-8edf-e0d2217b7885": {
-   "icon": "https://raw.githubusercontent.com/nomideusz/rei3-railway/main/icon.png",
+   "icon": "https://raw.githubusercontent.com/two-workspaces/rei3/main/icon.png",
    "name": "REI3",
    "build": {
     "dockerfilePath": "Dockerfile"
@@ -15,7 +15,7 @@
     "restartPolicyMaxRetries": 10
    },
    "source": {
-    "repo": "https://github.com/nomideusz/rei3-railway",
+    "repo": "https://github.com/two-workspaces/rei3",
     "rootDirectory": null
    },
    "networking": {
